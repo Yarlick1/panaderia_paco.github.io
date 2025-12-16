@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Bienvenidos a Nuestra Boda! - Álbum Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilo para el botón flotante (FAB) */
+        .fab {
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 10;
+        }
+        /* Grid de Masonry (básico) */
+        .photo-grid {
+            column-count: 2;
+            column-gap: 1rem;
+        }
+        .photo-grid > div {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <button id="upload-btn" class="fab fixed bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full shadow-xl transition duration-300 flex items-center">
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+        Subir Mi Foto
+    </button>
+
+    <header class="bg-cover bg-center h-96 relative shadow-lg" style="background-image: url('https://picsum.photos/1200/800?random=1');">
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white p-4">
+            <h1 class="text-5xl font-extrabold mb-2 text-center tracking-wider">¡[Nombre] & [Nombre]!</h1>
+            <p class="text-xl font-light text-center">Nuestro Álbum de Boda Digital</p>
+            <p class="text-sm mt-4 italic">[16 de Diciembre de 2025]</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-10">
+        <section class="text-center mb-10">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-4">¡Bienvenidos, invitados queridos!</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Esta galería es exclusiva para nuestro evento. Queremos ver la boda a través de tus ojos.
+                **Escanea el QR, sube las fotos que tomes, ¡y verás cómo se actualiza la galería al instante!**
+                Tu aporte es nuestro mejor recuerdo.
+            </p>
+        </section>
+
+        <section>
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">Momentos Compartidos</h3>
+            <div id="photo-container" class="photo-grid">
+                <p id="loading-message" class="text-center text-gray-500 col-span-2">Cargando la galería...</p>
+            </div>
+        </section>
+    </main>
+    
+    <div id="upload-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center p-4" onclick="closeModal(event)">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-2xl" onclick="event.stopPropagation()">
+            <h3 class="text-xl font-bold mb-4">📸 Sube tu mejor momento</h3>
+            <form id="upload-form" enctype="multipart/form-data">
+                <label for="photo-file" class="block mb-2 text-sm font-medium text-gray-900">Selecciona tu foto:</label>
+                <input type="file" id="photo-file" name="file" accept="image/*" required class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5">
+                
+                <div id="status-message" class="mt-4 text-center text-sm font-medium text-blue-600 hidden"></div>
+                
+                <button type="submit" id="submit-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mt-4 transition duration-300">
+                    Compartir Recuerdo
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="lightbox-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center p-4 z-20" onclick="closeLightbox(event)">
+        <div class="relative max-w-full max-h-full" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute top-2 right-2 text-white text-3xl font-bold opacity-75 hover:opacity-100 transition duration-300">
+                &times;
+            </button>
+            <img id="lightbox-image" src="" alt="Foto en pantalla completa" class="max-w-full max-h-[90vh] object-contain">
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
